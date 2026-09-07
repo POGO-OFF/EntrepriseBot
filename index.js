@@ -4,13 +4,22 @@ const path = require("path");
 const {
     Client,
     Collection,
-    GatewayIntentBits
+    GatewayIntentBits,
+    Partials
 } = require("discord.js");
 
 const config = require("./config");
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildModeration
+    ],
+    partials: [Partials.Channel, Partials.Message]
 });
 
 client.commands = new Collection();

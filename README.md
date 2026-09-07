@@ -1,5 +1,26 @@
 # Entreprise Bot
 
+> Version complète Silver Creek RP : panneaux, événements, tickets par message privé, auto-rôle et modération.
+
+## Configuration actuelle (Bot-Hosting)
+
+Seules ces variables sont obligatoires : `TOKEN`, `CLIENT_ID` et `GUILD_ID`.
+Les autres réglages se font sur Discord avec `/configuration` : `role-staff`,
+`role-arrivee`, `forum-tickets`, `salon-panneau`, `salon-event` et `salon-logs`.
+
+Dans le portail développeur Discord, onglet **Bot**, active **Server Members Intent**
+et **Message Content Intent**. Place aussi le rôle du bot au-dessus du rôle automatique
+et des rôles qu'il doit modérer.
+
+Commandes conservées : `/panneau` et `/event`.
+
+Commandes staff : `/warn`, `/sanctions`, `/timeout`, `/untimeout`, `/kick`,
+`/ban`, `/unban`, `/purge`, `/membre` et `/ticket`.
+
+Le Forum choisi pour les tickets doit être visible uniquement par le staff. Un membre
+ouvre un ticket en envoyant directement un message privé au bot. Le staff répond en
+écrivant normalement dans la publication du Forum, ou avec `/ticket repondre`.
+
 Bot Discord permettant aux membres de publier un panneau d'entreprise avec :
 
 - un titre ;

@@ -10,6 +10,7 @@ const {
 
 const config = require("../config");
 const logger = require("../utils/logger");
+const { settings, isStaff } = require("../utils/permissions");
 
 function safeAttachmentName(originalName, prefix = "panneau") {
     const extension = originalName?.split(".").pop()?.toLowerCase() || "png";
@@ -25,8 +26,8 @@ function canDeletePublication(interaction, creatorId) {
 
     const isCreator = interaction.user.id === creatorId;
 
-    const hasAdminRole =
-        member.roles?.cache?.has(config.roles.admin) ?? false;
+    const hasAdminRole = isStaff(member) ||
+        (config.roles.admin && (member.roles?.cache?.has(config.roles.admin) ?? false));
 
     const isAdministrator =
         member.permissions?.has(
@@ -107,8 +108,9 @@ module.exports = {
                     .getTextInputValue("panneau_description")
                     .trim();
 
+                const panelChannelId = settings(interaction.guildId).panelChannelId;
                 const panelChannel = await interaction.guild.channels
-                    .fetch(config.channels.panel)
+                    .fetch(panelChannelId)
                     .catch(() => null);
 
                 if (!panelChannel?.isTextBased()) {
@@ -207,7 +209,7 @@ module.exports = {
                 if (!pendingEvent) {
                     return interaction.reply({
                         content:
-                            "❌ La demande a expiré. Relance `/evenements`.",
+                            "❌ La demande a expiré. Relance `/event`.",
                         flags: MessageFlags.Ephemeral
                     });
                 }
@@ -232,8 +234,9 @@ module.exports = {
                     .getTextInputValue("evenement_description")
                     .trim();
 
+                const eventChannelId = settings(interaction.guildId).eventChannelId;
                 const panelChannel = await interaction.guild.channels
-                    .fetch(config.channels.panel)
+                    .fetch(eventChannelId)
                     .catch(() => null);
 
                 if (!panelChannel?.isTextBased()) {

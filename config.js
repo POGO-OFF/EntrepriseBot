@@ -3,9 +3,7 @@ require("dotenv").config();
 const requiredVariables = [
     "TOKEN",
     "CLIENT_ID",
-    "GUILD_ID",
-    "PANEL_CHANNEL_ID",
-    "ADMIN_ROLE_ID"
+    "GUILD_ID"
 ];
 
 const missingVariables = requiredVariables.filter(
@@ -14,7 +12,7 @@ const missingVariables = requiredVariables.filter(
 
 if (missingVariables.length > 0) {
     throw new Error(
-        `Variables manquantes dans le fichier .env : ${missingVariables.join(", ")}`
+        `Variables d'environnement manquantes : ${missingVariables.join(", ")}`
     );
 }
 
@@ -24,17 +22,19 @@ module.exports = {
     guildId: process.env.GUILD_ID,
 
     channels: {
-        panel: process.env.PANEL_CHANNEL_ID,
+        panel: process.env.PANEL_CHANNEL_ID || null,
 
         // Facultatif : si non renseigné, les événements seront publiés
         // dans le même salon que les entreprises.
         events:
             process.env.EVENT_CHANNEL_ID ||
-            process.env.PANEL_CHANNEL_ID
+            process.env.PANEL_CHANNEL_ID || null
     },
 
     roles: {
-        admin: process.env.ADMIN_ROLE_ID
+        admin: process.env.ADMIN_ROLE_ID || null,
+        staff: process.env.STAFF_ROLE_ID || null,
+        auto: process.env.AUTO_ROLE_ID || null
     },
 
     logs: {

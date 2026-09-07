@@ -9,7 +9,7 @@ const {
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("evenements")
+        .setName("event")
         .setDescription("Publier un panneau pour un événement")
         .addAttachmentOption((option) =>
             option

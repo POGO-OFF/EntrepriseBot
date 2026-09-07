@@ -1,17 +1,19 @@
 const { EmbedBuilder } = require("discord.js");
 const config = require("../config");
+const { settings } = require("./permissions");
 
 async function sendLog(client, channelId, embed) {
-    if (!channelId) {
+    const effectiveChannelId = channelId || settings(config.guildId).logChannelId;
+    if (!effectiveChannelId) {
         return;
     }
 
     const channel = await client.channels
-        .fetch(channelId)
+        .fetch(effectiveChannelId)
         .catch(() => null);
 
     if (!channel?.isTextBased()) {
-        console.warn(`⚠️ Salon de logs introuvable : ${channelId}`);
+        console.warn(`⚠️ Salon de logs introuvable : ${effectiveChannelId}`);
         return;
     }
 
