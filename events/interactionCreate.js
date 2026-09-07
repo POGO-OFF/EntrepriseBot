@@ -60,7 +60,9 @@ module.exports = {
                     });
                 }
 
-                await logger.commandUsed(interaction);
+                logger.commandUsed(interaction).catch((error) => {
+    console.error("❌ Impossible d'enregistrer la commande :", error);
+});
                 await command.execute(interaction);
                 return;
             }
