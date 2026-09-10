@@ -31,7 +31,7 @@ const ticketButtons = () => new ActionRowBuilder().addComponents(
 const ticketTypes = {
   support: { label: 'Assistance générale', emoji: '🛠️', description: 'Question ou problème sur le serveur' },
   moderation: { label: 'Signaler un membre', emoji: '🛡️', description: 'Harcèlement, comportement ou sanction' },
-  impersonation: { label: 'Faux profil / usurpation', emoji: '🚨', description: 'Compte utilisant une identité ou des photos' },
+  impersonation: { label: 'Faux profil / usurpation', emoji: '🚨', description: 'BUGS ou Améliorations' },
   partnership: { label: 'Entreprise / partenariat', emoji: '🤝', description: 'Demande liée à une entreprise ou un projet' }
 };
 
