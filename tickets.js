@@ -29,10 +29,10 @@ const ticketButtons = () => new ActionRowBuilder().addComponents(
 );
 
 const ticketTypes = {
-  support: { label: 'Assistance générale', emoji: '🛠️', description: 'Question ou problème sur le serveur' },
+  support: { label: 'Assistance Générale', emoji: '🛠️', description: 'Question ou problème sur le serveur' },
   moderation: { label: 'Signaler un membre', emoji: '🛡️', description: 'Harcèlement, comportement ou sanction' },
-  impersonation: { label: 'Faux profil / usurpation', emoji: '🚨', description: 'BUGS ou Améliorations' },
-  partnership: { label: 'Entreprise / partenariat', emoji: '🤝', description: 'Demande liée à une entreprise ou un projet' }
+  bugs: { label: 'BUGS / Améliorations', emoji: '🐞', description: 'Signaler un bug ou proposer une amélioration' },
+  partnership: { label: 'Entreprise / Organisation', emoji: '🤝', description: 'Demande liée à une entreprise ou une organisation' }
 };
 
 const ticketTypeMenu = () => new ActionRowBuilder().addComponents(
@@ -76,7 +76,11 @@ async function openTicket(interaction, type = 'support') {
   if (supportRoleId) permissionOverwrites.push({ id: supportRoleId, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory] });
 
   const safeName = interaction.user.username.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 15) || interaction.user.id;
-  const ticketType = ticketTypes[type] ? type : 'support';
+  // Les anciens panneaux pouvaient encore envoyer "impersonation".
+  // On les redirige vers le signalement d'un membre au lieu de créer
+  // un ticket d'assistance par erreur.
+  const normalizedType = type === 'impersonation' ? 'moderation' : type;
+  const ticketType = ticketTypes[normalizedType] ? normalizedType : 'support';
   const channel = await interaction.guild.channels.create({
     name: `${ticketType}-${safeName}`,
     type: ChannelType.GuildText,
